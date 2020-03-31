@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Lecture et parsing d'un fichier JSON</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+  <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+    crossorigin="anonymous"></script>
+  <h2>Lecture et parsing du fichier utilisateurs.json</h2>
+
+
+  <form>
+    <div class="form-group row">
+      <div class="offset-2">
+      </div>
+      <label class="col-1 col-form-label" for="utilisateurs">Utilisateurs</label>
+      <div class="col-2">
+        <select id="utilisateurs" name="utilisateurs" class="custom-select">
+          <option value="">Sélectionner</option>
+        </select>
+      </div>
+    </div>
+  </form>
+  <div class="row">
+    <div class="offset-2">
+    </div>
+    <div class="col-sm-3">
+      <div class="card">
+        <div class="card-header" id="nom">
+
+        </div>
+        <div class="card-body">
+          <h5 class="card-title" id="profession"></h5>
+          <p class="card-text" id="zone"></p>
+          <a href="#" class="btn btn-primary" id="tel"></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+      $('#utilisateurs option:selected').text( function () {
+        $.getJSON('utilisateurs.json', function (data) {
+          $.each(data, function (index, d) {
+            if (d.Nom == "Boy Black") {
+            $('#nom').append('Nom : ' + d.Nom + '<br>');
+            $('#zone').append('Age : ' + d.Age + '<br><br>');
+            $('#profession').append('Profession : ' + d.Profession + '<br>');
+            $('#zone').append('Email : ' + d.Email + '<br><br>');
+            $('#tel').append('Tel : ' + d.Tel + '<br><br>');
+            }
+          });
+        });
+      });
+    });
+    function listeDeroulante() {
+      $.getJSON('utilisateurs.json', function (data) {
+
+        $.each(data, function (key, val) {
+          //		console.log(key, val);
+          $('<option/>', {
+            val: (key + 1), // value de l option
+            html: val.Nom // libellé de l option
+          }).appendTo('#utilisateurs');
+        });
+      });
+    }
+    $(document).ready(function () {
+      listeDeroulante();
+    });
+  </script>
+</body>
+
+</html>
