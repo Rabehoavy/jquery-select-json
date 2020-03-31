@@ -31,40 +31,44 @@
     </div>
     <div class="col-sm-3">
       <div class="card">
-        <div class="card-header" id="nom">
-
+        <div class="card-header">
+          <h5 class="card-title" id="nom"></h5>
         </div>
         <div class="card-body">
-          <h5 class="card-title" id="profession"></h5>
-          <p class="card-text" id="zone"></p>
-          <a href="#" class="btn btn-primary" id="tel"></a>
+          <h6 class="card-title" id="profession"></h6>
+          <p class="card-text" id="age"></p>
+          <p class="card-text" id="email"></p>
+          <p class="card-text" id="tel"></p>
         </div>
       </div>
     </div>
   </div>
   <script>
     $(function () {
-      $('#utilisateurs option:selected').text( function () {
+      $('select#utilisateurs').change(function () {
+        var id_utilisateur = $(this).children("option:selected").val();
         $.getJSON('utilisateurs.json', function (data) {
           $.each(data, function (index, d) {
-            if (d.Nom == "Boy Black") {
-            $('#nom').append('Nom : ' + d.Nom + '<br>');
-            $('#zone').append('Age : ' + d.Age + '<br><br>');
-            $('#profession').append('Profession : ' + d.Profession + '<br>');
-            $('#zone').append('Email : ' + d.Email + '<br><br>');
-            $('#tel').append('Tel : ' + d.Tel + '<br><br>');
-            }
+            if (d.Id == id_utilisateur) {
+              $('#nom').html('Nom : ' + d.Nom + '<br>');
+              $('#age').html('Age : ' + d.Age + 'ans <br>');
+              $('#profession').html('Profession : ' + d.Profession + '<br>');
+              $('#email').html('Email : ' + d.Email + '<br>');
+              $('#tel').html('Tel : ' + d.Tel + '<br>');
+            }           
           });
         });
       });
+      $('#nom#zone#profession#tel').get(0).reset();
     });
+
     function listeDeroulante() {
       $.getJSON('utilisateurs.json', function (data) {
 
         $.each(data, function (key, val) {
           //		console.log(key, val);
           $('<option/>', {
-            val: (key + 1), // value de l option
+            val: val.Id, // value de l option
             html: val.Nom // libellé de l option
           }).appendTo('#utilisateurs');
         });
